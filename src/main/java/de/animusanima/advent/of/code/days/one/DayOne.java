@@ -15,7 +15,7 @@ public abstract class DayOne {
     private static int position = 50;
 
     public static void main(String[] args) {
-        int password = 0;
+        // Read input data from file
         List<String> safeCodes;
         try {
             String inputFileName = "src/main/resources/inputs/day_one.txt";
@@ -24,13 +24,9 @@ public abstract class DayOne {
             safeCodes = Collections.emptyList();
         }
 
-        // Read Rotation from List
-        // Parse letter and number to decide which way to rotate
-        // Starting Point is 50
         /*
-            You could follow the instructions, but your recent required official North Pole secret entrance security training
-            seminar taught you that the safe is actually a decoy. The actual password is the number of times the dial
-            is left pointing at 0 after any rotation in the sequence.
+         * Read safe codes
+         * Increate the solution number by one if the position hits 0 after rotating to the left
          */
         for (String code : safeCodes) {
             String rotationDirection = code.substring(0, 1);
@@ -38,6 +34,7 @@ public abstract class DayOne {
             position = SafeHelper.findSolution(position, rotationDirection, rotationStep);
         }
 
+        // Print solution at the end to copy it into the web page of Advent of Code 2025, Day 1
         System.out.println("Solution found " + SafeHelper.getSolution());
     }
 
