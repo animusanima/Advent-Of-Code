@@ -1,5 +1,6 @@
 package de.animusanima.advent.of.code.days.one.utils;
 
+import de.animusanima.advent.of.code.utils.InputFileReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -8,13 +9,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SafeCodeReaderTest {
+class InputFileReaderTest {
 
     private final File testFile = new File("src/test/resources/day_one.txt");
 
     @Test
-    void readCodeFromFileName() throws IOException {
-        List<String> data = SafeCodeReader.readCodeFromFileName(testFile.getAbsolutePath());
+    void readDayOneInputFromFileName() throws IOException {
+        List<String> data = InputFileReader.readDayOneInputFromFileName(testFile.getAbsolutePath());
         assertThat(data).isNotEmpty().hasSize(4484);
     }
 }

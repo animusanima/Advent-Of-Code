@@ -1,6 +1,6 @@
 package de.animusanima.advent.of.code.days.one;
 
-import de.animusanima.advent.of.code.days.one.utils.SafeCodeReader;
+import de.animusanima.advent.of.code.utils.InputFileReader;
 import de.animusanima.advent.of.code.days.one.utils.SafeHelper;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public abstract class DayOne {
         List<String> safeCodes;
         try {
             String inputFileName = "src/main/resources/inputs/day_one.txt";
-            safeCodes = SafeCodeReader.readCodeFromFileName(inputFileName);
+            safeCodes = InputFileReader.readDayOneInputFromFileName(inputFileName);
         } catch (IOException e) {
             safeCodes = Collections.emptyList();
         }
