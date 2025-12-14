@@ -1,7 +1,6 @@
 package de.animusanima.advent.of.code.days.two.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
