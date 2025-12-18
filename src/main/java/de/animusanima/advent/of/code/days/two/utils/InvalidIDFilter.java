@@ -1,7 +1,6 @@
 package de.animusanima.advent.of.code.days.two.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,79 +18,51 @@ public class InvalidIDFilter {
     }
 
     public List<String> findInvalidIDs(String input) {
-        Set<String> invalidIDPartOne = new HashSet<>();
-        Set<String> invalidIDPartTwo = new HashSet<>();
-        Set<String> invalidIDBothParts = new HashSet<>();
+        Set<String> invalidIds = new HashSet<>();
         String[] ids = input.split(this.separator);
 
-        for (Character c : ids[0].toCharArray()) {
-            if (hasDoubleDigitInID(ids[0], c)) {
-                invalidIDPartOne.add(extractDoubleDigits(ids[0], c));
+        // ID parts have the same length
+        if ((ids[0].length() % 2 == 0) && (ids[1].length() % 2 == 0)) {
+            String idOnePartOne = ids[0].substring(0, ids[0].length() / 2);
+            String idOnePartTwo = ids[0].substring(ids[0].length() / 2);
+            String idTwoPartOne = ids[1].substring(0, ids[1].length() / 2);
+            String idTwoPartTwo = ids[1].substring(ids[1].length() / 2);
+
+            if (idOnePartOne.equals(idOnePartTwo)) {
+                invalidIds.add(idOnePartOne + idOnePartTwo);
+            }
+            if (idTwoPartOne.equals(idTwoPartTwo)) {
+                invalidIds.add(idTwoPartOne + idTwoPartTwo);
+            }
+            if (idOnePartOne.equals(idTwoPartOne)) {
+                invalidIds.add(idOnePartOne + idTwoPartOne);
+            }
+            if (idOnePartTwo.equals(idTwoPartTwo)) {
+                invalidIds.add(idOnePartTwo + idTwoPartTwo);
+            }
+        } else if (ids[0].length() % 2 == 0) {
+            String idPartOne = ids[0].substring(0, ids[0].length() / 2);
+            String idPartTwo = ids[0].substring(ids[0].length() / 2);
+
+            if (idPartOne.equals(idPartTwo)) {
+                invalidIds.add(idPartOne + idPartTwo);
+            }
+        } else if (ids[1].length() % 2 == 0) {
+            String idPartOne = ids[1].substring(0, ids[1].length() / 2);
+            String idPartTwo = ids[1].substring(ids[1].length() / 2);
+
+            if (idPartOne.equals(idPartTwo)) {
+                invalidIds.add(idPartOne + idPartTwo);
             }
         }
-
-        for (Character c : ids[1].toCharArray()) {
-            if (hasDoubleDigitInID(ids[1], c)) {
-                invalidIDPartTwo.add(extractDoubleDigits(ids[1], c));
-            }
-        }
-
-        for (Character c : input.toCharArray()) {
-            if (hasDoubleDigitsInIDs(ids[0], ids[1], c)) {
-                String extractionIDOne = extractDoubleDigits(ids[0], c);
-                String extractionIDTwo = extractDoubleDigits(ids[1], c);
-                if (!extractionIDOne.isBlank() && !extractionIDTwo.isBlank()) {
-                    invalidIDBothParts.add(extractionIDOne);
-                    invalidIDBothParts.add(extractionIDTwo);
-                }
-            }
-        }
-
-        System.out.println(invalidIDPartOne);
-        System.out.println(invalidIDPartTwo);
-        System.out.println(invalidIDBothParts);
-
-        StringBuilder combinedInvalidIDs = new StringBuilder();
-        for (String invalidID : invalidIDBothParts) {
-            combinedInvalidIDs.append(invalidID);
-        }
-        return new ArrayList<>(Collections.singleton(combinedInvalidIDs.toString()));
+        return new ArrayList<>(invalidIds);
     }
 
-    public boolean hasDoubleDigitInID(String id, Character digit) {
-        int numberOfOccurences = 0;
-        for (Character c : id.toCharArray()) {
-            if (Character.isDigit(c) && !c.equals('0') && !String.valueOf(c).isEmpty() && c.equals(digit)) {
-                numberOfOccurences++;
-            }
-            if (numberOfOccurences == 2) {
-                return true;
-            }
+    public String splitStringInHalve(String source) {
+        if (source == null) {
+            return "";
         }
-        return false;
-    }
-
-    public boolean hasDoubleDigitsInIDs(String idOne, String idTwo, Character digit) {
-        return hasDoubleDigitInID(idOne, digit) && hasDoubleDigitInID(idTwo, digit) || hasDigitInBothIDs(idOne, idTwo, digit);
-    }
-
-    public boolean hasDigitInBothIDs(String idOne, String idTwo, Character digit) {
-        return idOne.indexOf(digit) == idTwo.indexOf(digit);
-    }
-
-    public String extractDoubleDigits(String id, Character digit) {
-        StringBuilder result = new StringBuilder();
-        int numberOfOccurences = 0;
-        for (Character c : id.toCharArray()) {
-            if (Character.isDigit(c) && !c.equals('0') && !String.valueOf(c).isEmpty() && c.equals(digit)) {
-                numberOfOccurences++;
-                result.append(c);
-            }
-            if (numberOfOccurences >= 2) {
-                break;
-            }
-        }
-        return result.toString();
+        return source.substring(0, source.length() / 2);
     }
 
 }

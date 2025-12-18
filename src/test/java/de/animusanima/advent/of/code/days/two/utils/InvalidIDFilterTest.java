@@ -23,35 +23,50 @@ class InvalidIDFilterTest {
     }
 
     @Test
+    void indInvalidIDsForSecondEasyCase() {
+        String id = "99-115";
+        List<String> result = invalidIDFilter.findInvalidIDs(id);
+
+        assertThat(result).containsExactly("99");
+    }
+
+    @Test
     void findInvalidIDsForToughCase() {
         String id = "1188511880-1188511890";
         List<String> result = invalidIDFilter.findInvalidIDs(id);
 
-        assertThat(result).isEqualTo(Arrays.asList("11885", "11885"));
+        assertThat(result).containsExactly("1188511885");
     }
 
     @Test
-    void hasDoubleDigitInID() {
-        String id = "11-22";
-        SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '1')).isTrue();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '2')).isTrue();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '3')).isFalse();
-        assertions.assertAll();
+    void findInvalidIDsForSecondToughCase() {
+        String id = "222220-222224";
+        List<String> result = invalidIDFilter.findInvalidIDs(id);
+
+        assertThat(result).containsExactly("222222");
     }
 
     @Test
-    void hasDoubleDigitsInIDs() {
-        String id = "1188511880-1188511890";
-        SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '1')).isTrue();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '8')).isTrue();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '5')).isTrue();
-        assertions.assertThat(invalidIDFilter.hasDoubleDigitInID(id, '9')).isFalse();
-        assertions.assertAll();
+    void findInvalidIDsForThirdToughCase() {
+        String id = "446443-446449";
+        List<String> result = invalidIDFilter.findInvalidIDs(id);
+
+        assertThat(result).containsExactly("446446");
     }
 
     @Test
-    void extractDoubleDigits() {
+    void findInvalidIDsForFourthToughCase() {
+        String id = "38593856-38593862";
+        List<String> result = invalidIDFilter.findInvalidIDs(id);
+
+        assertThat(result).containsExactly("385938");
+    }
+
+    @Test
+    void findInvalidIDsForValidIdReturnsEmptyList() {
+        String id = "1698522-1698528";
+        List<String> result = invalidIDFilter.findInvalidIDs(id);
+
+        assertThat(result).isEmpty();
     }
 }
